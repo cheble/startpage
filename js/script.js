@@ -13,19 +13,17 @@ var dayNames = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THRUSDAY", "FRIDAY"
 /*== Options ==*/
 /*============*/
 
-var CookiePrefix = "taco_stpg_"; //prefix for cookies.
+var CookiePrefix = "startpage_"; //prefix for cookies.
 var cmdPrefix = "!"; //prefix for commands.
-var ssi = 1; //set default search provider. Use array index of the array below. (Starting with 0)
+var ssi = 0; //set default search provider. Use array index of the array below. (Starting with 0)
 // Format: [Keyword, Search URL (Search query replaces "{Q}"), "Input placeholder text"]
 var searchSources = [
-  ["bbt",      "http://bakabt.me/browse.php?q={Q}",                      "BakaBT"],
   ["g",        "https://www.google.com/#q={Q}",                          "google_logo"],
   ["im",       "https://www.google.com/search?tbm=isch&q={Q}",           "google_logo Images"],
-  ["imdb",     "http://www.imdb.com/find?q={Q}",                         "IMDB"],
-  ["nya",      "https://www.nyaa.se/?page=search&term={Q}",              "Nyaa Torrents"],
-  ["ud",       "http://www.urbandictionary.com/define.php?term={Q}",     "Urban Dictionary"],
-  ["wp",       "http://en.wikipedia.org/w/index.php?search={Q}",         "Wikipedia"],
-  ["yt",       "https://www.youtube.com/results?search_query={Q}",       "YouTube"]
+  ["yt",       "https://www.youtube.com/results?search_query={Q}",       "YouTube"],
+  ["gd",       "https://drive.google.com/drive/search?q={Q}",            "Google Drive"],
+  ["a",        "https://www.amazon.com/s/keywords={Q}",                  "Amazon"],
+  ["sd",       "https://slickdeals.net/newsearch.php?q={Q}",             "slickdeals"]
 ];
 
 // Because I care about readability in my JS. kthx.
@@ -35,6 +33,8 @@ var svgGamepad = "<svg style=\"width:24px;height:24px\" xmlns=\"http://www.w3.or
 var svgMore    = "<svg style=\"width:24px;height:24px\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z\" /></svg>";
 var svgSocial  = "<svg style=\"width:24px;height:24px\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M18,16.08C17.24,16.08 16.56,16.38 16.04,16.85L8.91,12.7C8.96,12.47 9,12.24 9,12C9,11.76 8.96,11.53 8.91,11.3L15.96,7.19C16.5,7.69 17.21,8 18,8A3,3 0 0,0 21,5A3,3 0 0,0 18,2A3,3 0 0,0 15,5C15,5.24 15.04,5.47 15.09,5.7L8.04,9.81C7.5,9.31 6.79,9 6,9A3,3 0 0,0 3,12A3,3 0 0,0 6,15C6.79,15 7.5,14.69 8.04,14.19L15.16,18.34C15.11,18.55 15.08,18.77 15.08,19C15.08,20.61 16.39,21.91 18,21.91C19.61,21.91 20.92,20.61 20.92,19A2.92,2.92 0 0,0 18,16.08Z\" /></svg>";
 var svgTrash   = "<svg style=\"width:24px;height:24px\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path d=\"M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z\" /></svg>";
+var svgReddit  = "<svg style=\"width:24px;height:24px\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><line fill=\"none\" stroke-width=\"3.3602\" stroke-linecap=\"round\" x1=\"10\" y1=\"22\" x2=\"22\" y2=\"2\"/><path stroke-width=\"0.5985\" d=\"M2,7c0-0.444,0.133-0.797,0.401-1.059 c0.268-0.26,0.592-0.392,0.973-0.392c0.389,0,0.721,0.128,0.994,0.383c0.274,0.259,0.411,0.612,0.411,1.067v1.441h0.063 c0.421-0.736,0.973-1.401,1.66-1.996c0.687-0.594,1.407-0.907,2.159-0.938c0.422,0,0.794,0.141,1.12,0.416 c0.326,0.277,0.491,0.62,0.491,1.032c0,0.481-0.167,0.835-0.502,1.062c-0.334,0.228-0.819,0.423-1.456,0.587 c-0.637,0.166-1.049,0.299-1.238,0.403c-1.531,0.83-2.296,2.251-2.296,4.262v8.276c0,0.459-0.128,0.815-0.387,1.067 c-0.258,0.253-0.577,0.379-0.957,0.379c-0.4,0-0.74-0.132-1.018-0.397c-0.279-0.267-0.417-0.64-0.417-1.115V7z\" /></svg>";
+var svgReddit2 = "<svg style=\"width:24px;height:24px\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><text id=\"TextElement\" x=\"2\" y=\"22\" style=\"font-family:Roboto;font-size:24;\">r/</text></svg>";
 
 /* Header Format: ["(Label)", "(Accent Color)", "-HEAD-"],
 *   - The labels are setup for 24px SVGs. by default they are separated from the linkMenu for readability.
@@ -46,45 +46,54 @@ var svgTrash   = "<svg style=\"width:24px;height:24px\" xmlns=\"http://www.w3.or
 */
 // Also yes I could totally use a json object to represent the menus, but I didn't feel like reprogramming the whole script. Probably doing that next site, though.
 var linkMenu = [
-  [svgTrash,                   "blue",                                        "-HEAD-"], // Anime
-  ["AnimeNewsNetwork",         "",""],
-  ["MyAnimeList",              "",""],
-  ["Nyaa Tracker",             "",""],
-  ["BakaBT",                   "",""],
+  [svgTrash,                   "blue",                                        "-HEAD-"], // main
+  ["Amazon",                   "https://www.amazon.com",                      ""],
+  ["Slickdeals",               "https://slickdeals.net",                      ""],
+  ["Calendar",                 "https://calendar.google.com",                 ""],
+  ["Drive",                    "https://drive.google.com",                    ""],
   
-  [svgSocial,                  "green",                                       "-HEAD-"], // Media
-  ["YouTube",                  "",""],
-  ["Facebook",                 "",""],
-  ["Reddit",                   "",""],
-  ["Twitch",                   "",""],
-  ["DeviantArt",               "",""],
+  [svgSocial,                  "green",                                       "-HEAD-"], // social
+  ["YouTube",                  "https://www.youtube.com",                     ""],
+  ["slack - wforw",            "https://wforw.slack.com",                     ""],
+  ["slack - thepteam",         "https://thepteam.slack.com",                  ""],
+  ["slack - zenchamber",       "https://zenchamber.slack.com",                ""],
+  ["Goodreads",                "https://www.goodreads.com",                   ""],
   
-  [svgClover,                  "cyan",                                        "-HEAD-"], // 4chan
-  ["/a/ Anime & Manga",        "",""],
-  ["/g/ Technology",           "",""],
-  ["/w/ Anime/Wallpapers",     "",""],
-  ["/wg/ Wallpaper/General",   "",""],
+  [svgReddit2,                 "cyan",                                        "-HEAD-"], // reddit
+  ["Reddit",                   "https://www.reddit.com",                      ""],
+  ["r/startpages",             "https://www.reddit.com/r/startpages",         ""],
+  ["r/Leathercraft",           "https://www.reddit.com/r/Leathercraft",       ""],
+  ["r/goodyearwelt",           "https://www.reddit.com/r/goodyearwelt",       ""],
+  ["r/backpacking",            "https://www.reddit.com/r/backpacking",        ""],
+  ["r/Ultralight",             "https://www.reddit.com/r/Ultralight",         ""],
+  ["r/gaming",                 "https://www.reddit.com/r/gaming",             ""],
+  ["r/NintendoSwitch",         "https://www.reddit.com/r/NintendoSwitch",     ""],
+  ["r/Breath_of_the_Wild",     "https://www.reddit.com/r/Breath_of_the_Wild/",""],
+  ["r/lincoln",                "https://www.reddit.com/r/lincoln",            ""],
   
-  [svgCode,                    "red",                                         "-HEAD-"], // Code Stuff
-  ["GitHub",                   "",""],
-  ["Gist",                     "",""],
-  ["JSFiddle",                 "",""],
-  ["Stack Overflow",           "",""],
+  [svgCode,                    "red",                                         "-HEAD-"], // code stuff
+  ["GitHub",                   "https://github.com",                          ""],
+  ["JSFiddle",                 "https://jsfiddle.net",                        ""],
+  ["Stack Overflow",           "https://stackoverflow.com",                   ""],
+  ["startpage repo",           "https://github.com/cheble/startpage",         ""],
+  ["original owner repo",      "https://github.com/TacoAnon/Homepages",       ""],
   
-  [svgGamepad,                 "magenta",                                     "-HEAD-"], // Gaming
-  ["Steam",                    "",""],
-  ["Humble Bundle",            "",""],
-  ["GOG.com",                  "",""],
-  ["/r/gaming",                "",""],
+  [svgGamepad,                 "magenta",                                     "-HEAD-"], // gaming
+  ["IGN",                      "https://www.ign.com",                         ""],
+  ["Steam",                    "http://store.steampowered.com",               ""],
+  ["Humble Bundle",            "https://www.humblebundle.com",                ""],
+  ["twitch",                   "https://www.twitch.tv",                       ""],
+  ["IsThereAnyDeal",           "https://isthereanydeal.com/",                 ""],
+  ["Binding of Isaac - wiki",  "http://bindingofisaac.wikia.com/wiki/The_Binding_of_Isaac_Wiki",""],
+  ["Darksouls 3 - wiki",       "http://darksouls3.wiki.fextralife.com",       ""],
+
   
-  [svgMore,                    "yellow",                                      "-HEAD-"], // Other
-  ["Gmail",                    "",""],
-  ["Amazon",                   "",""],
-  ["Dropbox",                  "",""],
-  ["Netflix",                  "",""],
-  ["Weather",                  "",""],
+  [svgMore,                    "yellow",                                      "-HEAD-"], // video
+  ["Netflix",                  "https://www.netflix.com",                     ""],
+  ["Amazon Video",             "https://www.amazon.com/Prime-Video/b?node=2676882011",""],
+  ["HBO NOW",                  "https://play.hbonow.com/",                    ""],
+  ["Hulu",                     "https://www.hulu.com/",                       ""],
 ];
-// DID I FORGET TO MENTION?! THE DEMO LINKS DO NOTHING!
 
 /*==================*/
 /*== Main Script ==*/
