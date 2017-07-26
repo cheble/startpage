@@ -162,6 +162,8 @@ function buildHelp() {
 }
 
 function buildMenu() {
+  loadLinkMenu();
+
   var newMenu = "";
 
   if(linkMenu[0][2] === "-HEAD-")
@@ -179,6 +181,26 @@ function buildMenu() {
   newMenu += "</ul></div></div></li>";
 
   rootMenuUL.innerHTML = newMenu;
+}
+
+function loadLinkMenu() {
+  // WARNING: no validation is done!
+  var jsonStr = getLocalStorage("linkMenu") || "";
+  if (jsonStr !== "") {
+    try {
+      linkMenu = JSON.parse(jsonStr);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+}
+
+function saveLinkMenu() {
+  // WARNING: no validation is done!
+  var jsonStr = JSON.stringify(linkMenu);
+
+  console.log(jsonStr);
+  setLocalStorage("linkMenu", jsonStr);
 }
 
 function handleQuery(event, query) {
@@ -236,7 +258,7 @@ var noteText = null;
 function handleNotes(event, focus){
   if (focus) {
     if(!noteText) {
-      noteText = GetCookie("notes") || "";
+      noteText = getLocalStorage("notes") || "";
     }
     notesTextarea.value = noteText;
     addClass('notesContainer', "active");
@@ -244,7 +266,7 @@ function handleNotes(event, focus){
     removeClass('notesContainer', "active");
     if(noteText !== notesTextarea.value) {
       noteText = notesTextarea.value;
-      SetCookie("notes", noteText, 365 * 24 * 60 * 60 * 1000);
+      setLocalStorage("notes", noteText);
     }
   }
 }
@@ -264,6 +286,38 @@ function addClass(elementID, className) {
 }
 function removeClass(elementID, className) {
   $(elementID).classList.remove(className);
+}
+
+function setLocalStorage(name, value) {
+  if (typeof(Storage) !== "undefined") {
+    localStorage.setItem(name, value);
+  } else {
+    console.log("No Web Storage support");
+    return null;
+  }
+}
+
+function getLocalStorage(name) {
+  if (typeof(Storage) !== "undefined") {
+    var rawValue = localStorage.getItem(name);
+
+    if (rawValue === null) {
+      return null;
+    } else {
+      return rawValue;
+    }
+  } else {
+    console.log("No Web Storage support");
+    return null;
+  }
+}
+
+function removeLocalStorage(name) {
+  if (typeof(Storage) !== "undefined") {
+    localStorage.removeItem(name);
+  } else {
+    console.log("No Web Storage support");
+  }
 }
 
 function GetCookie(name) {
