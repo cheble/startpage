@@ -285,7 +285,7 @@ function GetCookie(name) {
     return null;
 }
 function SetCookie(name, value, expire) {
-    var temp = CookiePrefix + name + "=" + escape(value) + ";" + (expire !== 0 ? "expires=" + ((new Date((new Date()).getTime() + expire)).toUTCString()) + ";" : " path=/;");
+    var temp = CookiePrefix + name + "=" + encodeURIComponent(value) + ";" + (expire !== 0 ? "expires=" + ((new Date((new Date()).getTime() + expire)).toUTCString()) + ";" : " path=/;");
     console.log(temp);
     document.cookie = temp;
 }
