@@ -105,6 +105,7 @@ var rootSearchHelp = $('searchHelpMenu');
 var rootMenuUL = $('categoryMenu');
 var dateDiv = $('dateContainer');
 var notesTextarea = $('notesInput');
+var editorTextarea = $('editorInput');
 
 function init() {
   initSearchBar();
@@ -115,6 +116,7 @@ function init() {
   $('mainContainer').style.opacity = 1;
   $('dateContainer').style.opacity = 1;
   $('notesWidget').style.opacity = 1;
+  $('editorWidget').style.opacity = 1;
 }
 
 function initSearchBar() {
@@ -271,10 +273,53 @@ function handleNotes(event, focus){
   }
 }
 
+function handleEditorInput(event) {
+  var key = event.keyCode || event.which;
+  if (key === 27) closeEditor(event, false);
+}
+
+var editorText = null;
+function openEditor() {
+  editorText = JSON.stringify(linkMenu);
+  editorTextarea.value = editorText;
+  addClass('editorContainer', "active");
+}
+
+function closeEditor() {
+  removeClass('editorContainer', "active");
+  if (editorText !== editorTextarea.value) {
+    editorText = editorTextarea.value;
+
+    // varify data, confirm, save, and rebuild
+    try {
+      var temp = JSON.parse(editorText);
+      if (temp[0][2] !== "-HEAD-") {
+        console.log("first element is not '-HEAD-': \""+temp[0][2]+"\".");
+        temp = null;
+        return;
+      }
+      for (var i = 0; i < temp.length; i++) {
+        if (!temp[i][0] || !temp[i][1]) {
+          console.log("missing element in ["+i+"]: \""+temp[i]+"\".");
+          temp = null;
+          return;
+        }
+      }
+
+      linkMenu = temp;
+      saveLinkMenu()
+      buildMenu();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+}
+
 var ignoredKeys = [9,13,16,17,18,19,20,27,33,34,35,36,37,38,39,40,45,46,91,92,93,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
 function handleKeydown(event) {
-  if (notesInput === document.activeElement || 
-     searchInput === document.activeElement || 
+  if (notesInput === document.activeElement ||
+     searchInput === document.activeElement ||
+     editorInput === document.activeElement ||
      ignoredKeys.includes(event.keyCode))
     return;
 

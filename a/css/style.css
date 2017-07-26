@@ -390,6 +390,85 @@ textarea {
   fill: #ffd200;
 }
 
+/*=============*/
+/*== Editor ==*/
+/*===========*/
+
+.container-editor {
+  background: #0d1011;
+  border-radius: 2px 50px 50px 2px;
+  position: relative;
+  max-height: 48px;
+  transition: max-height 0.2s cubic-bezier(0.4, 0.0, 0.2, 1),
+              box-shadow .2s ease,
+              border-radius .2s ease .1s,
+              left .2s cubic-bezier(0.4, 0.0, 0.2, 1);
+  box-shadow: 0  3px  4px  0   rgba(0, 0, 0, 0.14),
+              0  3px  3px -2px rgba(0, 0, 0, 0.2),
+              0  1px  8px  0   rgba(0, 0, 0, 0.12);
+  left: -272px;
+}
+.container-editor:hover {
+  left: -256px;
+  box-shadow: 0  4px  5px  0   rgba(0, 0, 0, 0.14),
+              0  1px 10px  0   rgba(0, 0, 0, 0.12),
+              0  2px  4px -1px rgba(0, 0, 0, 0.2);
+}
+.container-editor.active {
+  max-height: 532px;
+  left: 0px;
+  border-radius: 2px;
+  transition: max-height 0.2s cubic-bezier(0.4, 0.0, 0.2, 1) .1s,
+              box-shadow .2s ease .1s,
+              border-radius .2s ease,
+              left .2s cubic-bezier(0.4, 0.0, 0.2, 1) .1s;
+  box-shadow: 0  0    8px  0   rgba(0,0,0,.18),
+              0  8px 16px  0   rgba(0,0,0,.36);
+}
+.container-editor textarea {
+  min-height: 0px;
+  min-width: 300px;
+  width: 100%;
+  border: none;
+  outline: none;
+  padding: 16px;
+  background: transparent;
+  color: #7291a1;
+  transition: min-height 0.2s cubic-bezier(0.4, 0.0, 0.2, 1),
+              opacity .2s ease;
+  opacity: 0;
+}
+.container-editor.active textarea {
+  min-height: 500px;
+  opacity: 1;
+  transition: min-height 0.2s cubic-bezier(0.4, 0.0, 0.2, 1) .1s,
+              opacity .2s ease .1s;
+}
+@media (max-height: 540px) {
+  .container-editor.active {
+    max-height: calc(100vh - 40px);
+  }
+  .container-editor.active textarea {
+    min-height: calc(100vh - 40px);
+  }
+}
+.editor-icon {
+  position: absolute;
+  right: 0px;
+  width: 48px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity .2s ease;
+}
+.container-editor.active .editor-icon {
+  opacity: 0;
+}
+.editor-icon svg {
+  fill: #ffd200;
+}
+
 /*==============*/
 /*== Helpers ==*/
 /*============*/
