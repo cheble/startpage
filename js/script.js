@@ -177,7 +177,7 @@ function buildMenu() {
     if (linkMenu[i][2] === "-HEAD-")
       newMenu += "</ul></div></div></li><li class=\"button-container expanding-down\"><div class=\"button accent-" + (linkMenu[i][1] !== "" ? linkMenu[i][1].toLowerCase() : "white") + "\"><label class=\"button-content\">" + linkMenu[i][0] + "</label><div class=\"button-expanded-content\"><ul class=\"menu-link container\">";
     else
-      newMenu += "<li class='menu-link-item'><a href=\"" + linkMenu[i][1] + "\" target=\"_self\"><label>" + linkMenu[i][0] + "</label></a></li>";
+      newMenu += "<li class='menu-link-item'><a href=\"" + linkMenu[i][1] + "\" target=\"_top\"><label>" + linkMenu[i][0] + "</label></a></li>";
   newMenu += "</ul></div></div></li>";
 
   rootMenuUL.innerHTML = newMenu;
@@ -234,13 +234,13 @@ function handleQuery(event, query) {
           }
         }
         if (qList.length > 1) {
-          window.location = searchSources[ssi][1].replace("{Q}", encodeURIComponent(query.replace(keyword, ""))).trim();
+          top.window.location = searchSources[ssi][1].replace("{Q}", encodeURIComponent(query.replace(keyword, ""))).trim();
         } else {
           searchInput.placeholder = searchSources[ssi][2];
           searchInput.value = "";
         }
       } else {
-        window.location = searchSources[ssi][1].replace("{Q}", encodeURIComponent(query));
+        top.window.location = searchSources[ssi][1].replace("{Q}", encodeURIComponent(query));
       }
     }
   }
