@@ -29,6 +29,7 @@
 	<span id="instructionsToggle" onclick="helpToggle()">[H]</span>
 	<span id="instructions">
 		<div>
+			Keys
 			<table>
 				<tr>
 					<td><kbd>h</kbd></td>
@@ -58,6 +59,11 @@
 					<td><kbd>Space</kbd></td>
 					<td>Focus Search</td>
 				</tr>
+			</table>
+		</div>
+		<div>
+			Commands
+			<table id="commandsTable">
 			</table>
 		</div>
 	</span>
@@ -92,7 +98,7 @@
 					<a href="https://twitter.com/" id="4" class="lBox">
 						<img src="src/tw.png">
 						<h3>TWITTER</h3>
-						<p>Worship mayor Trapero here.</p>
+						<p>Tweet tweet.</p>
 					</a>
 				</td>
 			</tr>
@@ -136,7 +142,7 @@
 
 	<footer>
 
-		<form action="https://google.com/search" method="get">
+		<form action="javascript:searchAction();">
 			<input type="text" name="q" placeholder="[Space] to search" id="search" autocomplete="off">
 		</form>
 
