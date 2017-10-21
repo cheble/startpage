@@ -13,23 +13,79 @@ document.getElementById("search").onblur = function(){ // Unfocusing search bar
 	document.getElementById("escape").style.opacity = 0;
 	document.getElementById("blackout").style.opacity = 0;
 	document.getElementById("blackout").style.pointerEvents = "none";
-	document.getElementById("liveClock").style.color = '';
-	document.getElementById("search").value = '';
+	document.getElementById("liveClock").style.opacity = 1;
+	document.getElementById("search").setAttribute("placeholder", "[Space] to Search");
+	document.getElementById("search").value = "";
 };
 document.getElementById("search").onfocus = function(){ // Focusing search bar
 	document.getElementById("escape").style.opacity = .7;
 	document.getElementById("blackout").style.opacity = .3;
 	document.getElementById("blackout").style.pointerEvents = "all";
-	document.getElementById("liveClock").style.color = "#60B48A";
+	document.getElementById("liveClock").style.opacity = 0;
+	document.getElementById("search").setAttribute("placeholder", "Search " + searchCommands[sci][2]);
+	document.getElementById("search").value = "";
 };
 
 function helpToggle(){ // Toggle instructions opacity to show/hide
+	// Generate commands table if needed.
+	if (document.getElementById("commandsTable").children.length == 0) {
+		createCommandsTable(searchCommands, document.getElementById("commandsTable"));
+	}
+
 	if ( document.getElementById("instructions").style.opacity < .9 ) {
 		document.getElementById("instructions").style.opacity = .9;
 		document.getElementById("instructionsToggle").style.opacity = 1;
 	} else {
 		document.getElementById("instructions").style.opacity = 0;
-		document.getElementById("instructionsToggle").style.opacity = '';
+		document.getElementById("instructionsToggle").style.opacity = "";
+	}
+}
+
+function createCommandsTable(tableData, tableElement) {
+	var tableBody = document.createElement('tbody');
+
+	tableData.forEach(function(rowData) {
+		var row = document.createElement('tr');
+
+		var cell = document.createElement('td');
+		cell.appendChild(document.createTextNode(rowData[0]));
+		row.appendChild(cell);
+
+		cell = document.createElement('td');
+		cell.appendChild(document.createTextNode(rowData[2]));
+		row.appendChild(cell);
+
+		tableBody.appendChild(row);
+	});
+
+	document.getElementById("commandsTable").appendChild(tableBody);
+}
+
+// DEFINE define the search commands
+var searchCommands = [
+	["!g",        "https://www.google.com/#q={Q}",                          "Google"],
+	["!im",       "https://www.google.com/search?tbm=isch&q={Q}",           "Google Images"],
+	["!yt",       "https://www.youtube.com/results?search_query={Q}",       "YouTube"],
+	["!gd",       "https://drive.google.com/drive/search?q={Q}",            "Google Drive"],
+	["!a",        "https://www.amazon.com/s/keywords={Q}",                  "Amazon"],
+	["!sd",       "https://slickdeals.net/newsearch.php?q={Q}",             "Slickdeals"]
+];
+
+// global search url
+var sci = 0;
+
+function searchAction(){ // Handle search bar commands
+
+	var index = searchCommands.findIndex(x => x[0]==document.getElementById("search").value.trim());
+
+	if (index != -1) {
+		sci = index;
+		document.getElementById("search").value = "";
+		// TODO set command displayname somewhere
+		document.getElementById("search").setAttribute("placeholder", "Search " + searchCommands[sci][2]);
+	} else {
+		// run search query
+		window.location = searchCommands[sci][1].replace("{Q}", encodeURIComponent(document.getElementById("search").value));
 	}
 }
 
@@ -39,7 +95,7 @@ document.onkeydown = function(e) {
 
 	if ( document.activeElement.id == "search" ) { // If search bar and key [ESC], go back to blocks.
 		if ( key == 27 ) {
-			document.getElementById("search").value = '';
+			document.getElementById("search").value = "";
 			document.activeElement.blur();
 			document.getElementById(focused).focus();
 		}
@@ -48,7 +104,7 @@ document.onkeydown = function(e) {
 
 	if (!document.activeElement.id) {
 		// Keys for help and search still working even if no block selected, if it's another key, then select last block.
-		if ( key == 32 ) { // Key space, focus search bar and show [ESP] instruction.
+		if ( key == 32 ) { // Key space, focus search bar and show [ESC] instruction.
 			document.getElementById("search").focus();
 		} else if ( key == 72 ) { // H key, toggle instructions.
 			helpToggle();
