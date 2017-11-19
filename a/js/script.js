@@ -276,13 +276,16 @@ function handleNotes(event, focus){
 function handleEditorInput(event) {
   var key = event.keyCode || event.which;
   if (key === 27) closeEditor(event, false);
+  if (key === 9) event.preventDefault();
 }
 
 var editorText = null;
 function openEditor() {
-  editorText = JSON.stringify(linkMenu);
-  editorTextarea.value = editorText;
-  addClass('editorContainer', "active");
+  if (!hasClass('editorContainer', "active")) {
+    editorText = JSON.stringify(linkMenu);
+    editorTextarea.value = editorText;
+    addClass('editorContainer', "active");
+  }
 }
 
 function closeEditor() {
@@ -313,6 +316,8 @@ function closeEditor() {
       console.log(e);
     }
   }
+  $('editorContainer').blur();
+  editorTextarea.blur();
 }
 
 var ignoredKeys = [9,13,16,17,18,19,20,27,33,34,35,36,37,38,39,40,45,46,91,92,93,112,113,114,115,116,117,118,119,120,121,122,123,144,145];
@@ -331,6 +336,9 @@ function addClass(elementID, className) {
 }
 function removeClass(elementID, className) {
   $(elementID).classList.remove(className);
+}
+function hasClass(elementID, className) {
+  $(elementID).classList.contains(className);
 }
 
 function setLocalStorage(name, value) {
