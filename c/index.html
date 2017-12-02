@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+    Author: Chase
+    https://github.com/cheble
+
+    Sources: 
+
+-->
+<html>
+<head>
+<title>startpage</title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+
+<body onload="init();">
+
+
+<div id="input">
+    <input id="search" name="q" type="text" placeholder="search" onkeypress="javascript:handleQuery(event,this.value);" autocomplete="off" />
+</div>
+<div id="menu">
+    <!-- menu items as a list of lists -->
+    <ul>
+        <li>
+            <span class="menu-icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+            <span class="menu-text">Code</span>
+            <ul>
+                <li><a href="https://www.github.com"><img src="https://github.com/favicon.ico" />GitHub</a></li>
+                <li><a href="https://www.stackoverflow.com"><img src="https://cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico" />StackOverflow</a></li>
+                <li><a href="https://www.github.com/cheble"><img src="https://github.com/favicon.ico" />My GitHub</a></li>
+                <li><a href="https://www.github.com/cheble/startpage"><img src="https://github.com/favicon.ico" />This Repo</a></li>
+            </ul>
+        </li>
+        <li>
+            <span class="menu-icon"><i class="fa fa-television" aria-hidden="true"></i></span>
+            <span class="menu-text">Tele</span>
+            <ul>
+                <li><a href="https://www.netflix.com"><img src="https://www.netflix.com/favicon.ico" />Netflix</a></li>
+                <li><a href="https://www.hulu.com"><img src="https://www.hulu.com/favicon.ico" />Hulu</a></li>
+                <li><a href="https://www.amazon.com/b/?&node=2858778011"><img src="https://www.amazon.com/favicon.ico" />Amazon Video</a></li>
+                <li><a href="http://plex.tv/web"><img src="http://plex.tv/favicon.ico" />Plex</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+
+
+</body>
+
+</html>
