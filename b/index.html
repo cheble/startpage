@@ -10,6 +10,11 @@
 
 	<script type="text/javascript">
 
+		function init() {
+			document.getElementById("search").focus();
+			startClock();
+		}
+
 		function startClock() {
 			var now = new Date();
 			var hor = now.getHours() < 10 ? '0' + now.getHours() : now.getHours();
@@ -22,7 +27,7 @@
 	</script>
 
 </head>
-<body onload="startClock()">
+<body onload="init()">
 
 	<div id="blackout"></div>
 	<span id="escape">[ESC] To Return</span>
