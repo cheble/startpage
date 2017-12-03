@@ -11,19 +11,21 @@
 <title>startpage</title>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 
+<link rel="stylesheet" href="./css/style.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 
 <body onload="init();">
 
-
+<div id="content">
 <div id="input">
     <input id="search" name="q" type="text" placeholder="search" onkeypress="javascript:handleQuery(event,this.value);" autocomplete="off" />
 </div>
-<div id="menu">
+<hr>
+<div id="menu-bar">
     <!-- menu items as a list of lists -->
-    <ul>
+    <ul id="menu">
         <li>
             <span class="menu-icon"><i class="fa fa-star" aria-hidden="true"></i></span>
             <span class="menu-text">Code</span>
@@ -46,7 +48,7 @@
         </li>
     </ul>
 </div>
-
+</div>
 
 
 </body>
